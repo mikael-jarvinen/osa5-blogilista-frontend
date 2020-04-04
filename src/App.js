@@ -5,12 +5,13 @@ import Notification from './components/Notification'
 import loginService from './services/login'
 import Account from './components/AccountControl.js'
 import NewBlog from './components/NewBlog'
+import './App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -28,34 +29,38 @@ const App = () => {
     }
   }, [])
 
-  const showMessage = message => {
-    if (!message) {
-      setErrorMessage(message)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    }
-  }
-
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
         username, password,
       })
-
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
+      setErrorMessage('logged in succesfully')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     } catch (exception) {
-      showMessage('Wrong credentials!')
+      setErrorMessage('wrong credentials')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
-  const handleLogout = () => {
+  const handleLogout = event => {
+    event.preventDefault()
     window.localStorage.removeItem('loggedBlogappUser')
+    setUser(null)
+    blogService.setToken(null)
+    setErrorMessage('logged out succesfully')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
   }
 
   const loginForm = () => (
@@ -82,14 +87,25 @@ const App = () => {
       </form>
   )
   
-  const addBlog = (newTitle, newAuthor, newUrl) => {
+  const addBlog = (event, newTitle, newAuthor, newUrl) => {
     const newBlog = {
       title: newTitle,
       author: newAuthor,
       url: newUrl
     }
-
-    blogService.create(newBlog)
+    
+    try {
+      blogService.create(newBlog)
+      setErrorMessage(`succesfully added ${newBlog.title} blog`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    } catch (e) {
+      setErrorMessage(`failed adding ${newBlog.title} blog`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
 
   const Blogs = () => (

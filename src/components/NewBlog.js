@@ -6,7 +6,7 @@ const NewBlog = ({addBlog}) => {
   const [newUrl, setNewUrl] = useState('')
 
   return (
-    <form onSubmit={() => addBlog(newTitle, newAuthor, newUrl)}>
+    <form onSubmit={(event) => addBlog(event, newTitle, newAuthor, newUrl)}>
       <h2>Add new blog</h2>
       <div>
         title:
