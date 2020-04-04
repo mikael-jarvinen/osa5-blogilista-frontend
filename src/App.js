@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Notification from './components/Notification'
 import loginService from './services/login'
+import Account from './components/AccountControl.js'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -50,6 +51,10 @@ const App = () => {
     }
   }
 
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedBlogappUser')
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
         <div>
@@ -76,7 +81,7 @@ const App = () => {
 
   const Blogs = () => (
     <div>
-      <h3>logged in as {user.name}</h3>
+      <Account logout={handleLogout} user={user} />
       {blogs.map(blog => <Blog blog={blog} key={blog.title}/>)}
     </div>
   )
