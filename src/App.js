@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import Notification from './components/Notification'
 import loginService from './services/login'
 import Account from './components/AccountControl.js'
+import NewBlog from './components/NewBlog'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -23,6 +24,7 @@ const App = () => {
     if(loggedUserJson){
       const user = JSON.parse(loggedUserJson)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -43,6 +45,7 @@ const App = () => {
       })
 
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -78,10 +81,21 @@ const App = () => {
         <button type="submit">login</button>
       </form>
   )
+  
+  const addBlog = (newTitle, newAuthor, newUrl) => {
+    const newBlog = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl
+    }
+
+    blogService.create(newBlog)
+  }
 
   const Blogs = () => (
     <div>
       <Account logout={handleLogout} user={user} />
+      <NewBlog addBlog={addBlog} />
       {blogs.map(blog => <Blog blog={blog} key={blog.title}/>)}
     </div>
   )
