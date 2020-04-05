@@ -46,3 +46,10 @@
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.blogView {
+  border-style: solid;
+  border-radius: 1px;
+  margin: 2px;
+  padding: 3px;
+}
