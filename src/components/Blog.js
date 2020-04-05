@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
-import Togglable from './Togglable'
 import blogService from '../services/blogs.js'
 
-const BlogMeta = ({ blog }) => {
+const BlogMeta = ({ blog, user }) => {
   const [blogState, setBlogState] = useState(blog)
+
+  const removeForm = () => (
+    <form onSubmit={removeBlog}>
+      <button type='submit'>remove</button>
+    </form>
+  )
 
   const addLike = event => {
     event.preventDefault()
@@ -15,6 +20,12 @@ const BlogMeta = ({ blog }) => {
     setBlogState(newBlog)
   }
 
+  const removeBlog = event => {
+    if (window.confirm(`Delete ${blogState.title} blog?`)) {
+      blogService.remove(blogState.id)
+    }
+  }
+
   return (
     <>
       {blogState.url} <br />
@@ -23,17 +34,44 @@ const BlogMeta = ({ blog }) => {
         <button type='submit'>like</button> <br />
       </form>
       {blogState.user.name} <br />
+      {user.name === blog.user.name
+      ? removeForm()
+      : null
+      }
     </>
   )
 }
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, user }) => {
+  const [metaVisible, setMetaVisible] = useState(false)
+
+  const showMeta = () => (
+    <div>
+      <BlogMeta blog={blog} user={user} />
+      <form onSubmit={event => {
+        event.preventDefault()
+        setMetaVisible(!metaVisible)}
+        }>
+        <button type='submit'>hide</button>
+      </form>
+    </div>
+  )
+  
+  const hideMeta = () => (
+    <form onSubmit={event => {
+      event.preventDefault()
+      setMetaVisible(!metaVisible)}
+      }>
+      <button type='submit'>view</button>
+    </form>
+  )
+
   return (
     <div className='blogView'>
     {blog.title} {blog.author} 
-    <Togglable buttonLabel='view' closeLabel='hide'>
-      <BlogMeta blog={blog} />
-    </Togglable>
+    {metaVisible
+    ? showMeta()
+    : hideMeta()}
   </div>
   )
 }

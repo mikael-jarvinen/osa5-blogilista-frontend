@@ -8,6 +8,16 @@ import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import './App.css'
 
+const compareBlogs = (firstBlog, secondBlog) => {
+  if (firstBlog.likes > secondBlog.likes) {
+    return -1
+  } else if (secondBlog.likes > firstBlog.likes) {
+    return 1
+  } else {
+    return 0
+  }
+}
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
@@ -17,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(initialBlogs =>
-      setBlogs( initialBlogs )
+      setBlogs( initialBlogs.sort(compareBlogs))
     )  
   }, [])
 
@@ -109,10 +119,10 @@ const App = () => {
   const Blogs = () => (
     <div>
       <Account logout={handleLogout} user={user} />
-      <Togglable buttonLabel='add blog' closeLabel='cancel' ref={blogFormRef}>
+      <Togglable buttonLabel='add blog' ref={blogFormRef}>
         <BlogForm addBlog={addBlog}/>
       </Togglable>
-      {blogs.map(blog => <Blog blog={blog} key={blog.title}/>)}
+      {blogs.map(blog => <Blog blog={blog} key={blog.title} user={user}/>)}
     </div>
   )
 
