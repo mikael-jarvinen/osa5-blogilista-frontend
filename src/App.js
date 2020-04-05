@@ -4,7 +4,8 @@ import blogService from './services/blogs'
 import Notification from './components/Notification'
 import loginService from './services/login'
 import Account from './components/AccountControl.js'
-import NewBlog from './components/NewBlog'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 import './App.css'
 
 const App = () => {
@@ -87,13 +88,8 @@ const App = () => {
       </form>
   )
   
-  const addBlog = (event, newTitle, newAuthor, newUrl) => {
-    const newBlog = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl
-    }
-    
+  const addBlog = (newBlog) => {
+    blogFormRef.current.toggleVisibility()
     try {
       blogService.create(newBlog)
       setErrorMessage(`succesfully added ${newBlog.title} blog`)
@@ -108,10 +104,14 @@ const App = () => {
     }
   }
 
+  const blogFormRef = React.createRef()
+
   const Blogs = () => (
     <div>
       <Account logout={handleLogout} user={user} />
-      <NewBlog addBlog={addBlog} />
+      <Togglable buttonLabel='add blog' ref={blogFormRef}>
+        <BlogForm addBlog={addBlog}/>
+      </Togglable>
       {blogs.map(blog => <Blog blog={blog} key={blog.title}/>)}
     </div>
   )
