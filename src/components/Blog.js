@@ -1,12 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Togglable from './Togglable'
+import blogService from '../services/blogs.js'
 
 const BlogMeta = ({ blog }) => {
+  const [blogState, setBlogState] = useState(blog)
+
+  const addLike = event => {
+    event.preventDefault()
+    const newBlog = {
+      ...blogState,
+      likes: blogState.likes + 1
+    }
+    blogService.update(newBlog, blog.id)
+    setBlogState(newBlog)
+  }
+
   return (
     <>
-      {blog.url} <br />
-      {blog.likes} <button>like</button> <br />
-      {blog.user.name} <br />
+      {blogState.url} <br />
+      {blogState.likes} 
+      <form onSubmit={(event) => addLike(event)}>
+        <button type='submit'>like</button> <br />
+      </form>
+      {blogState.user.name} <br />
     </>
   )
 }
