@@ -1,6 +1,6 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 
-const BlogForm = ({addBlog}) => {
+const BlogForm = ({ addBlog }) => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
@@ -18,23 +18,23 @@ const BlogForm = ({addBlog}) => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Create a new</h2>
-      Title: 
-        <input 
-        type='text' 
+      Title:
+      <input
+        type='text'
         value={newTitle}
-        onChange={({target}) => setNewTitle(target.value)}
-        />
-      Author: 
-        <input 
-        type='text' 
+        onChange={({ target }) => setNewTitle(target.value)}
+      />
+      Author:
+      <input
+        type='text'
         value={newAuthor}
-        onChange={({target}) => setNewAuthor(target.value)} 
-        />
-      Url: 
-        <input type='text'
+        onChange={({ target }) => setNewAuthor(target.value)}
+      />
+      Url:
+      <input type='text'
         value={newUrl}
-        onChange={({target}) => setNewUrl(target.value)}
-        />
+        onChange={({ target }) => setNewUrl(target.value)}
+      />
       <button type='submit'>Add Blog</button>
     </form>
   )

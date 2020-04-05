@@ -20,7 +20,7 @@ const BlogMeta = ({ blog, user }) => {
     setBlogState(newBlog)
   }
 
-  const removeBlog = event => {
+  const removeBlog = () => {
     if (window.confirm(`Delete ${blogState.title} blog?`)) {
       blogService.remove(blogState.id)
     }
@@ -29,14 +29,14 @@ const BlogMeta = ({ blog, user }) => {
   return (
     <>
       {blogState.url} <br />
-      {blogState.likes} 
+      {blogState.likes}
       <form onSubmit={(event) => addLike(event)}>
         <button type='submit'>like</button> <br />
       </form>
       {blogState.user.name} <br />
       {user.name === blog.user.name
-      ? removeForm()
-      : null
+        ? removeForm()
+        : null
       }
     </>
   )
@@ -51,28 +51,28 @@ const Blog = ({ blog, user }) => {
       <form onSubmit={event => {
         event.preventDefault()
         setMetaVisible(!metaVisible)}
-        }>
+      }>
         <button type='submit'>hide</button>
       </form>
     </div>
   )
-  
+
   const hideMeta = () => (
     <form onSubmit={event => {
       event.preventDefault()
       setMetaVisible(!metaVisible)}
-      }>
+    }>
       <button type='submit'>view</button>
     </form>
   )
 
   return (
     <div className='blogView'>
-    {blog.title} {blog.author} 
-    {metaVisible
-    ? showMeta()
-    : hideMeta()}
-  </div>
+      {blog.title} {blog.author}
+      {metaVisible
+        ? showMeta()
+        : hideMeta()}
+    </div>
   )
 }
 

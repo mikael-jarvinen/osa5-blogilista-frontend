@@ -28,7 +28,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(initialBlogs =>
       setBlogs( initialBlogs.sort(compareBlogs))
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -69,35 +69,35 @@ const App = () => {
     setUser(null)
     blogService.setToken(null)
     setErrorMessage('logged out succesfully')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
   }
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
-        <div>
+      <div>
           username
-            <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
+        <input
+          type="text"
+          value={username}
+          name="Username"
+          onChange={({ target }) => setUsername(target.value)}
+        />
+      </div>
+      <div>
           password
-            <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
+        <input
+          type="password"
+          value={password}
+          name="Password"
+          onChange={({ target }) => setPassword(target.value)}
+        />
+      </div>
+      <button type="submit">login</button>
+    </form>
   )
-  
+
   const addBlog = (newBlog) => {
     blogFormRef.current.toggleVisibility()
     try {
@@ -129,9 +129,9 @@ const App = () => {
   return (
     <div>
       <Notification message={errorMessage} />
-      {user === null 
-      ? loginForm()
-      : Blogs()
+      {user === null
+        ? loginForm()
+        : Blogs()
       }
     </div>
   )
