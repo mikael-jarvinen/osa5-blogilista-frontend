@@ -51,7 +51,7 @@ const Blog = ({ blog, user }) => {
       <form onSubmit={event => {
         event.preventDefault()
         setMetaVisible(!metaVisible)}
-      }>
+      } className='visibleMeta'>
         <button type='submit'>hide</button>
       </form>
     </div>
@@ -61,7 +61,7 @@ const Blog = ({ blog, user }) => {
     <form onSubmit={event => {
       event.preventDefault()
       setMetaVisible(!metaVisible)}
-    }>
+    } className='hiddenMeta'>
       <button type='submit'>view</button>
     </form>
   )
