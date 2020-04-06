@@ -29,7 +29,7 @@ const BlogMeta = ({ blog, user }) => {
   return (
     <>
       {blogState.url} <br />
-      {blogState.likes}
+      likes: {blogState.likes}
       <form onSubmit={(event) => addLike(event)}>
         <button type='submit'>like</button> <br />
       </form>
@@ -42,7 +42,7 @@ const BlogMeta = ({ blog, user }) => {
   )
 }
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog, user, id }) => {
   const [metaVisible, setMetaVisible] = useState(false)
 
   const showMeta = () => (
@@ -62,7 +62,7 @@ const Blog = ({ blog, user }) => {
       event.preventDefault()
       setMetaVisible(!metaVisible)}
     } className='hiddenMeta'>
-      <button type='submit'>view</button>
+      <button id={`${id}-button`} type='submit'>view</button>
     </form>
   )
 

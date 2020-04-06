@@ -100,14 +100,15 @@ const App = () => {
     </form>
   )
 
-  const addBlog = (newBlog) => {
+  const addBlog = async (newBlog) => {
     blogFormRef.current.toggleVisibility()
     try {
-      blogService.create(newBlog)
+      const returnedBlog = await blogService.create(newBlog)
       setErrorMessage(`succesfully added ${newBlog.title} blog`)
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
+      setBlogs(blogs.concat(returnedBlog).sort(compareBlogs))
     } catch (e) {
       setErrorMessage(`failed adding ${newBlog.title} blog`)
       setTimeout(() => {
@@ -124,7 +125,7 @@ const App = () => {
       <Togglable buttonLabel='add blog' ref={blogFormRef}>
         <BlogForm addBlog={addBlog}/>
       </Togglable>
-      {blogs.map(blog => <Blog blog={blog} key={blog.title} user={user}/>)}
+      {blogs.map(blog => <Blog id={blog.url} blog={blog} key={blog.title} user={user}/>)}
     </div>
   )
 
