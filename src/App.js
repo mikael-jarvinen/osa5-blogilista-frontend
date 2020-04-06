@@ -75,10 +75,11 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} id='login-form'>
       <div>
           username
         <input
+          id='login-form-username'
           type="text"
           value={username}
           name="Username"
@@ -88,6 +89,7 @@ const App = () => {
       <div>
           password
         <input
+          id='login-form-password'
           type="password"
           value={password}
           name="Password"
@@ -128,6 +130,7 @@ const App = () => {
 
   return (
     <div>
+      <h1>Blogs</h1>
       <Notification message={errorMessage} />
       {user === null
         ? loginForm()
