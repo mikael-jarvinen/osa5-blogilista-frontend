@@ -55,6 +55,7 @@ describe('Blog app ', function() {
         cy.get('#blogform-author').type('cypresser')
         cy.get('#blogform-url').type('cypress.com')
         cy.get('#submit-button').click()
+        cy.visit('http://localhost:3000')
       })
 
       it('blog can be liked', function() {
@@ -63,6 +64,80 @@ describe('Blog app ', function() {
         cy.visit('http://localhost:3000')
         cy.contains('cypress testing cypresser').contains('view').click()
         cy.contains('cypress testing cypresser').contains('likes: 1')
+      })
+
+      it('blog can be removed', function() {
+        cy.contains('cypress testing cypresser').contains('view').click()
+        cy.contains('cypress testing cypresser').contains('remove').click()
+        cy.contains('cypress testing cypresser').should('not.contain', 'cypress testing cypresser')
+      })
+    })
+
+    describe('When created multiple blogs', function() {
+      beforeEach(function() {
+        const user = JSON.parse(localStorage.getItem('loggedBlogappUser'))
+        const token = user.token
+        const firstBlog = {
+          title: 'firstBlog',
+          author: 'firstAuthor',
+          url: 'firstUrl',
+          likes: 4
+        }
+        const secondBlog = {
+          title: 'secondBlog',
+          author: 'firstAuthor',
+          url: 'firstUrl',
+          likes: 10
+        }
+        const thirdBlog = {
+          title: 'thirdBlog',
+          author: 'thirdAuthor',
+          url: 'thirdUrl',
+          likes: 2
+        }
+
+        cy.request({
+          method: 'POST',
+          url: 'http://localhost:3003/api/blogs',
+          body: firstBlog,
+          auth: {
+            username: '',
+            pasword: '',
+            sendImmediately: true,
+            bearer: `${token}`
+          }
+        })
+        cy.request({
+          method: 'POST',
+          url: 'http://localhost:3003/api/blogs',
+          body: secondBlog,
+          auth: {
+            username: '',
+            pasword: '',
+            sendImmediately: true,
+            bearer: `${token}`
+          }
+        })
+        cy.request({
+          method: 'POST',
+          url: 'http://localhost:3003/api/blogs',
+          body: thirdBlog,
+          auth: {
+            username: '',
+            pasword: '',
+            sendImmediately: true,
+            bearer: `${token}`
+          }
+        })
+        cy.visit('http://localhost:3000')
+      })
+
+      const strings = ['secondBlog', 'firstBlog', 'thirdBlog']
+      it.only('blogs are sorted', function() {
+        cy.get('.blogView')
+          .each((value, index) => {
+            cy.wrap(value).contains(strings[index])
+          })
       })
     })
   })
