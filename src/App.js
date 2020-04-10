@@ -5,7 +5,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { storageLogin } from './reducers/userReducer'
 import { initBlogs } from './reducers/blogsReducer'
 import LoginForm from './components/LoginForm'
+import {
+  BrowserRouter as Router,
+  Switch, Route
+} from 'react-router-dom'
 import Blogs from './components/Blogs'
+import UsersView from './components/UsersView'
+import Account from './components/AccountControl'
+import { logout } from './reducers/userReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -19,13 +26,25 @@ const App = () => {
     dispatch(storageLogin())
   }, [dispatch])
 
+  const logon = () => (
+    <div>
+      <Account logout={() => dispatch(logout())} />
+      <Router>
+        <Switch>
+          <Route path='/users'><UsersView /></Route>
+          <Route path='/'><Blogs /></Route>
+        </Switch>
+      </Router>
+    </div>
+  )
+
   return (
     <div>
       <h1>Blogs</h1>
       <Notification />
       {user === null
         ? <LoginForm />
-        : <Blogs />
+        : logon()
       }
     </div>
   )

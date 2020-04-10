@@ -1,9 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Blog from './Blog'
-import Account from './AccountControl'
 import BlogForm from './BlogForm'
-import { logout } from '../reducers/userReducer'
 import { toggleVisibility } from '../reducers/blogFormReducer'
 
 const Blogs = () => {
@@ -19,14 +17,9 @@ const Blogs = () => {
     dispatch(toggleVisibility())
   }
 
-  const handleLogout = event => {
-    event.preventDefault()
-    dispatch(logout())
-  }
 
   return (
     <div>
-      <Account logout={handleLogout} />
       <div style={hideWhenVisible}>
         <button onClick={toggle} id='add-blog-button'>add blog</button>
       </div>

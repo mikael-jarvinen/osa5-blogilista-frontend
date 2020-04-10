@@ -37,4 +37,10 @@ const remove = async id => {
   await axios.delete(`${baseUrl}/${id}`, config)
 }
 
-export default { getAll, create, setToken, update, remove }
+const users = async () => {
+  const url = '/api/users'
+  const response = await axios.get(url)
+  return response.data
+}
+
+export default { getAll, create, setToken, update, remove, users }
