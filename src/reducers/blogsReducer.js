@@ -36,12 +36,30 @@ export const initBlogs = () => {
   }
 }
 
+export const likeBlog = blog => {
+  return async dispatch => {
+    const newBlog = {
+      ...blog,
+      likes: blog.likes + 1
+    }
+    await blogService.update(newBlog, blog.id)
+    dispatch({
+      type: 'LIKE',
+      blog: newBlog
+    })
+  }
+}
+
 const blogsReducer = (state = [], action) => {
   switch (action.type) {
   case 'CREATE':
     return state.concat(action.new).sort(compareBlogs)
   case 'INIT':
     return action.blogs.sort(compareBlogs)
+  case 'LIKE':
+    return state
+      .filter(blog => blog.id !== action.blog.id)
+      .concat(action.blog)
   default:
     return state
   }

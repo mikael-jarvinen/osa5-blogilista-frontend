@@ -14,6 +14,7 @@ import UsersView from './components/UsersView'
 import UserView from './components/UserView'
 import Account from './components/AccountControl'
 import { logout } from './reducers/userReducer'
+import BlogView from './components/BlogView'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -33,6 +34,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route path='/users/:id'><UserView /></Route>
+          <Route path='/blogs/:id'><BlogView /></Route>
           <Route path='/users'><UsersView /></Route>
           <Route path='/'><Blogs /></Route>
         </Switch>
