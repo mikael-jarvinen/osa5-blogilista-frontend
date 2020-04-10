@@ -7,6 +7,8 @@ import Account from './components/AccountControl.js'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import './App.css'
+import { useSelector, useDispatch } from 'react-redux'
+import { showMessage } from './reducers/notificationReducer'
 
 const compareBlogs = (firstBlog, secondBlog) => {
   if (firstBlog.likes > secondBlog.likes) {
@@ -22,8 +24,10 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
+
+  const dispatch = useDispatch()
+  const notificationMessage = useSelector(state => state.notification)
 
   useEffect(() => {
     blogService.getAll().then(initialBlogs =>
@@ -51,15 +55,9 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-      setErrorMessage('logged in succesfully')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(showMessage(`Logged in succesfully as ${user.name}`))
     } catch (exception) {
-      setErrorMessage('wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(showMessage('Wrong credentials!'))
     }
   }
 
@@ -68,10 +66,7 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
     blogService.setToken(null)
-    setErrorMessage('logged out succesfully')
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000)
+    dispatch(showMessage('Logged in succesfully'))
   }
 
   const loginForm = () => (
@@ -104,16 +99,10 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
     try {
       const returnedBlog = await blogService.create(newBlog)
-      setErrorMessage(`succesfully added ${newBlog.title} blog`)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(showMessage(`succesfully added "${newBlog.title}" blog`))
       setBlogs(blogs.concat(returnedBlog).sort(compareBlogs))
     } catch (e) {
-      setErrorMessage(`failed adding ${newBlog.title} blog`)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(showMessage(`failed adding "${newBlog.title}" blog`))
     }
   }
 
@@ -132,7 +121,7 @@ const App = () => {
   return (
     <div>
       <h1>Blogs</h1>
-      <Notification message={errorMessage} />
+      <Notification message={notificationMessage} />
       {user === null
         ? loginForm()
         : Blogs()
