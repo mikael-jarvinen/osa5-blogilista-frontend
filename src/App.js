@@ -12,9 +12,8 @@ import {
 import Blogs from './components/Blogs'
 import UsersView from './components/UsersView'
 import UserView from './components/UserView'
-import Account from './components/AccountControl'
-import { logout } from './reducers/userReducer'
 import BlogView from './components/BlogView'
+import Navbar from './components/Navbar'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -30,8 +29,9 @@ const App = () => {
 
   const logon = () => (
     <div>
-      <Account logout={() => dispatch(logout())} />
       <Router>
+        <Navbar />
+        <Notification />
         <Switch>
           <Route path='/users/:id'><UserView /></Route>
           <Route path='/blogs/:id'><BlogView /></Route>
@@ -44,8 +44,6 @@ const App = () => {
 
   return (
     <div>
-      <h1>Blogs</h1>
-      <Notification />
       {user === null
         ? <LoginForm />
         : logon()
