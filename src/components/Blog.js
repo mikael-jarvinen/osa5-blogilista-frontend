@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import blogService from '../services/blogs.js'
 
-const BlogMeta = ({ blog, user }) => {
+const BlogMeta = ({ blog }) => {
   const [blogState, setBlogState] = useState(blog)
+  const user = useSelector(state => state.user)
 
   const removeForm = () => (
     <form onSubmit={removeBlog}>

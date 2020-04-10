@@ -1,9 +1,18 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogsReducer'
+import { toggleVisibility } from '../reducers/blogFormReducer'
 
-const BlogForm = ({ addBlog }) => {
+const BlogForm = () => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
+  const dispatch = useDispatch()
+
+  const addBlog = async (newBlog) => {
+    dispatch(toggleVisibility())
+    dispatch(createBlog(newBlog))
+  }
 
   const handleSubmit = event => {
     event.preventDefault()

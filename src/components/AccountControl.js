@@ -1,6 +1,8 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-const controls = ({ logout, user }) => {
+const Controls = ({ logout }) => {
+  const user = useSelector(state => state.user)
   return (
     <form onSubmit={logout}>
       logged in as {user.name} <button type='submit'>logout</button>
@@ -8,4 +10,4 @@ const controls = ({ logout, user }) => {
   )
 }
 
-export default controls
+export default Controls
