@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom'
 import Blogs from './components/Blogs'
 import UsersView from './components/UsersView'
+import UserView from './components/UserView'
 import Account from './components/AccountControl'
 import { logout } from './reducers/userReducer'
 
@@ -31,6 +32,7 @@ const App = () => {
       <Account logout={() => dispatch(logout())} />
       <Router>
         <Switch>
+          <Route path='/users/:id'><UserView /></Route>
           <Route path='/users'><UsersView /></Route>
           <Route path='/'><Blogs /></Route>
         </Switch>
