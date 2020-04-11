@@ -14,12 +14,15 @@ const BlogView = () => {
       <h1>{blog.title} {blog.author}</h1>
       <a href={blog.url}>{blog.url}</a>
       <div>
-        {blog.likes} likes 
+        {blog.likes} likes
         <button onClick={() => dispatch(likeBlog(blog))}>like</button>
       </div>
       <div>
         added by <Link to={`/users/${blog.user.id}`}>{blog.user.username}</Link>
       </div>
+      <ul>
+        {blog.comments.map(comment => <li key={comment}>{comment}</li>)}
+      </ul>
     </div>
   )
 

@@ -14,6 +14,7 @@ import UsersView from './components/UsersView'
 import UserView from './components/UserView'
 import BlogView from './components/BlogView'
 import Navbar from './components/Navbar'
+import { getUsers } from './reducers/userViewReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -21,6 +22,10 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initBlogs())
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(getUsers())
   }, [dispatch])
 
   useEffect(() => {
