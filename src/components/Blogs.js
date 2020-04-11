@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Blog from './Blog'
 import BlogForm from './BlogForm'
 import { toggleVisibility } from '../reducers/blogFormReducer'
+import { Button } from '@material-ui/core'
 
 const Blogs = () => {
   const dispatch = useDispatch()
@@ -21,11 +22,11 @@ const Blogs = () => {
   return (
     <div>
       <div style={hideWhenVisible}>
-        <button onClick={toggle} id='add-blog-button'>add blog</button>
+        <Button variant='outlined' onClick={toggle} id='add-blog-button'>add blog</Button>
       </div>
       <div style={showWhenVisible}>
         <BlogForm />
-        <button onClick={toggle}>cancel</button>
+        <Button onClick={toggle}>cancel</Button>
       </div>
       {blogs.map(blog => <Blog id={blog.url} blog={blog} key={blog.title} />)}
     </div>

@@ -1,46 +1,40 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { login } from '../reducers/userReducer'
 import Notification from './Notification'
+import { TextField, Button, Box, Typography } from '@material-ui/core'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
 
   const handleLogin = (event) => {
     event.preventDefault()
-    dispatch(login(username, password))
-    setUsername('')
-    setPassword('')
+    dispatch(login(event.target.login_form_username.value,
+      event.target.login_form_password.value))
   }
 
   return (
-    <div>
-      <h1>Blogs</h1>
+    <Box>
+      <Typography variant='h3'>Blogs</Typography>
       <Notification />
       <form onSubmit={handleLogin} id='login-form'>
         <div>
-            username
-          <input
-            id='login-form-username'
+          <TextField
+            label='Username'
+            name='login_form_username'
             type="text"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
           />
         </div>
         <div>
-            password
-          <input
-            id='login-form-password'
+          <TextField
+            label='Password'
+            name='login_form_password'
             type="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit">login</button>
+        <Button variant='outlined' type="submit">login</Button>
       </form>
-    </div>
+    </Box>
   )
 }
 

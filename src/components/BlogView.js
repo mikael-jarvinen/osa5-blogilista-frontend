@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { likeBlog, commentBlog } from '../reducers/blogsReducer'
+import { Typography } from '@material-ui/core'
 
 const BlogView = () => {
   const dispatch = useDispatch()
@@ -11,7 +12,7 @@ const BlogView = () => {
 
   const showBlogs = () => (
     <div>
-      <h1>{blog.title} {blog.author}</h1>
+      <Typography variant='h6'>{blog.title} {blog.author}</Typography>
       <a href={blog.url}>{blog.url}</a>
       <div>
         {blog.likes} likes
@@ -20,7 +21,7 @@ const BlogView = () => {
       <div>
         added by <Link to={`/users/${blog.user.id}`}>{blog.user.username}</Link>
       </div>
-      <h3>Comments</h3>
+      <Typography variant='h6'>Comments</Typography>
       <form onSubmit={event => {
         event.preventDefault()
         dispatch(commentBlog(blog, event.target.blog_comment.value))

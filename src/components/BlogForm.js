@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogsReducer'
 import { toggleVisibility } from '../reducers/blogFormReducer'
+import { Button } from '@material-ui/core'
 
 const BlogForm = () => {
   const [newTitle, setNewTitle] = useState('')
@@ -47,7 +48,7 @@ const BlogForm = () => {
         value={newUrl}
         onChange={({ target }) => setNewUrl(target.value)}
       />
-      <button id='submit-button' type='submit'>Add Blog</button>
+      <Button id='submit-button' type='submit'>Add Blog</Button>
     </form>
   )
 }

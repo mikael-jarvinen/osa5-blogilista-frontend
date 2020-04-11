@@ -15,6 +15,8 @@ import UserView from './components/UserView'
 import BlogView from './components/BlogView'
 import Navbar from './components/Navbar'
 import { getUsers } from './reducers/userViewReducer'
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { Typography } from '@material-ui/core'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -47,13 +49,33 @@ const App = () => {
     </div>
   )
 
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#A9114F'
+      },
+      secondary: {
+        main: '#638E9C'
+      },
+      text: {
+        primary: '#313131',
+        secondary: '#505050'
+      },
+    },
+    typography: {
+      htmlFontSize: 14,
+    }
+  })
+
   return (
-    <div>
-      {user === null
-        ? <LoginForm />
-        : logon()
-      }
-    </div>
+    <ThemeProvider theme={theme}>
+      <Typography variant='body2' component='span'>
+        {user === null
+          ? <LoginForm />
+          : logon()
+        }
+      </Typography>
+    </ThemeProvider>
   )
 }
 
