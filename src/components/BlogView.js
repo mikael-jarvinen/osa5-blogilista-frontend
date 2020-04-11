@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { likeBlog } from '../reducers/blogsReducer'
+import { likeBlog, commentBlog } from '../reducers/blogsReducer'
 
 const BlogView = () => {
   const dispatch = useDispatch()
@@ -20,6 +20,14 @@ const BlogView = () => {
       <div>
         added by <Link to={`/users/${blog.user.id}`}>{blog.user.username}</Link>
       </div>
+      <h3>Comments</h3>
+      <form onSubmit={event => {
+        event.preventDefault()
+        dispatch(commentBlog(blog, event.target.blog_comment.value))
+      }}>
+        <input name='blog_comment'/>
+        <button type='submit'>add comment</button>
+      </form>
       <ul>
         {blog.comments.map(comment => <li key={comment}>{comment}</li>)}
       </ul>

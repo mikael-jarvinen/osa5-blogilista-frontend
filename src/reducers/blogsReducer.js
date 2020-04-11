@@ -50,6 +50,16 @@ export const likeBlog = blog => {
   }
 }
 
+export const commentBlog = (blog, comment) => {
+  return async dispatch => {
+    const response = await blogService.commentBlog(blog.id, comment)
+    dispatch({
+      type: 'COMMENT',
+      blog: response
+    })
+  }
+}
+
 const blogsReducer = (state = [], action) => {
   switch (action.type) {
   case 'CREATE':
@@ -57,6 +67,10 @@ const blogsReducer = (state = [], action) => {
   case 'INIT':
     return action.blogs.sort(compareBlogs)
   case 'LIKE':
+    return state
+      .filter(blog => blog.id !== action.blog.id)
+      .concat(action.blog)
+  case 'COMMENT':
     return state
       .filter(blog => blog.id !== action.blog.id)
       .concat(action.blog)
